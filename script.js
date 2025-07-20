@@ -1,6 +1,6 @@
 window.onload = () => {
   const BIN_ID = "687d55b6fdac391a2ff0fdd9";
-  const API_KEY = "$2a$10$O5ziGvcBKlunu.dj8NfqWumAgm6UGi8uyTPPEzPTqsaOWFr/CVHfq";
+  const API_KEY = "$2a$10$GbRDOqLsqRDLgITITAsj.MyGZAD66oyA8G34gbaoqdLxNZx/OoUK"; // X-MASTER-KEY CORRETTA
   let loggedUser = null;
   let dbData = {};
 
