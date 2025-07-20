@@ -1,0 +1,45 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f0f0f0;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+input, button {
+  padding: 8px;
+  margin: 5px;
+}
+
+.error {
+  color: red;
+}
+
+.notaio {
+  background: white;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 5px gray;
+}
+
+.sezione {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.taskInfo {
+  font-size: 0.8em;
+  color: #555;
+}
