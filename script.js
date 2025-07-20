@@ -13,7 +13,6 @@ window.onload = () => {
       "Mauro": "p@ssw0rdM?"
     };
 
-    console.log("Tentativo login con:", user, pass);
     if (utenti[user] === pass) {
       loggedUser = user;
       document.getElementById("loginContainer").style.display = "none";
@@ -29,22 +28,41 @@ window.onload = () => {
   const logout = () => location.reload();
 
   const loadData = async () => {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-      headers: { "X-Master-Key": API_KEY }
-    });
-    const json = await res.json();
-    dbData = json.record;
+    try {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: {
+          "X-Master-Key": API_KEY,
+          "X-Bin-Meta": "false"
+        }
+      });
+
+      if (!res.ok) throw new Error("Errore caricamento dati");
+
+      const json = await res.json();
+      dbData = json.record;
+      if (!dbData.notai) dbData.notai = {};
+    } catch (err) {
+      console.error("Errore nel loadData:", err);
+      alert("Impossibile caricare i dati. Verifica la chiave API o il bin.");
+    }
   };
 
   const saveData = async () => {
-    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": API_KEY
-      },
-      body: JSON.stringify(dbData)
-    });
+    try {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": API_KEY
+        },
+        body: JSON.stringify(dbData)
+      });
+
+      if (!res.ok) throw new Error("Errore salvataggio");
+    } catch (err) {
+      console.error("Errore nel saveData:", err);
+      alert("Impossibile salvare i dati. Controlla la connessione o il bin.");
+    }
   };
 
   const renderNotai = () => {
@@ -70,7 +88,7 @@ window.onload = () => {
             <input type="checkbox" onchange="toggleTask('${nomeNotaio}', '${sezione}', ${i})" ${task.completata ? "checked" : ""} />
             ${task.attività}
             <span class="taskInfo"> – ${task.autore}</span>
-            <button onclick="deleteTask('${notaio}', '${sezione}', ${i})">❌</button>
+            <button onclick="deleteTask('${nomeNotaio}', '${sezione}', ${i})">❌</button>
           `;
           sDiv.querySelector("ul").appendChild(li);
         });
@@ -117,7 +135,7 @@ window.onload = () => {
     renderNotai();
   };
 
-  // Espone le funzioni globalmente per l'HTML
+  // Espone le funzioni al DOM
   window.login = login;
   window.logout = logout;
   window.addNotaio = addNotaio;
