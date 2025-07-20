@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Todo Notai</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="login">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Utente (Andrea o Mauro)">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Accedi</button>
+    <p id="loginError"></p>
+  </div>
+
+  <div id="app" class="hidden">
+    <h1>Todo Notai</h1>
+    <p>Utente connesso: <span id="currentUser"></span></p>
+    
+    <input type="text" id="notaioInput" placeholder="Aggiungi nuovo notaio">
+    <button onclick="addNotaio()">➕</button>
+    
+    <div id="notaiContainer"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
