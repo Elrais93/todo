@@ -8,24 +8,42 @@ const app = document.getElementById("app");
 const loginError = document.getElementById("login-error");
 
 function login() {
-  const user = document.getElementById("username").value.trim().toLowerCase();
-  const pass = document.getElementById("password").value.trim().toLowerCase();
+  const userInput = document.getElementById("username").value.trim().toLowerCase();
+  const passInput = document.getElementById("password").value.trim().toLowerCase();
+
+  console.log("🔐 Tentativo login con:", userInput, passInput);
 
   fetch(API_URL + "/latest", {
     headers: { "X-Master-Key": MASTER_KEY }
   })
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error("Errore nel recupero dati da JSONBin");
+      return res.json();
+    })
     .then(data => {
       const utenti = data.record.utenti;
-      if (utenti[user] && utenti[user].password === pass) {
-        currentUser = capitalize(user);
+      console.log("✅ Utenti disponibili nel bin:", utenti);
+
+      if (!utenti) {
+        loginError.textContent = "Dati utenti non trovati.";
+        return;
+      }
+
+      if (utenti[userInput] && utenti[userInput].password === passInput) {
+        currentUser = capitalize(userInput);
+        console.log("✅ Login riuscito come:", currentUser);
+        loginError.textContent = "";
         loginContainer.classList.add("hidden");
         app.classList.remove("hidden");
         loadNotai();
       } else {
-        loginError.textContent = "Credenziali non valide.";
-        app.classList.add("hidden"); // sicurezza extra
+        loginError.textContent = "❌ Credenziali non valide.";
+        console.warn("❌ Login fallito. Dati inseriti:", userInput, passInput);
       }
+    })
+    .catch(err => {
+      loginError.textContent = "Errore nel caricamento dei dati.";
+      console.error("🔥 Errore nel login:", err);
     });
 }
 
@@ -38,12 +56,13 @@ function logout() {
 }
 
 function loadNotai() {
-  if (!currentUser) return; // impedisce anche richieste non loggate
+  if (!currentUser) return;
   fetch(API_URL + "/latest", {
     headers: { "X-Master-Key": MASTER_KEY }
   })
     .then(res => res.json())
-    .then(data => renderNotai(data.record.notai));
+    .then(data => renderNotai(data.record.notai))
+    .catch(err => console.error("Errore caricamento notai:", err));
 }
 
 function renderNotai(notai) {
