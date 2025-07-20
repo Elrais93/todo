@@ -3,26 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Todo Notai</title>
-  <link rel="stylesheet" href="style.css">
+  <title>ToDo Notai</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="login">
+  <div id="loginContainer">
     <h2>Login</h2>
-    <input type="text" id="username" placeholder="Utente (Andrea o Mauro)">
-    <input type="password" id="password" placeholder="Password">
+    <input type="text" id="username" placeholder="Nome utente" />
+    <input type="password" id="password" placeholder="Password" />
     <button onclick="login()">Accedi</button>
-    <p id="loginError"></p>
+    <p id="loginError" class="error"></p>
   </div>
 
-  <div id="app" class="hidden">
-    <h1>Todo Notai</h1>
-    <p>Utente connesso: <span id="currentUser"></span></p>
-    
-    <input type="text" id="notaioInput" placeholder="Aggiungi nuovo notaio">
-    <button onclick="addNotaio()">➕</button>
-    
-    <div id="notaiContainer"></div>
+  <div id="appContainer" style="display: none;">
+    <h2>ToDo - Installazioni Notai</h2>
+    <p id="welcomeUser"></p>
+    <button onclick="logout()">Esci</button>
+
+    <div id="addNotaioContainer">
+      <input type="text" id="newNotaioName" placeholder="Aggiungi nuovo notaio" />
+      <button onclick="addNotaio()">Aggiungi</button>
+    </div>
+
+    <div id="notaiList"></div>
   </div>
 
   <script src="script.js"></script>
