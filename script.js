@@ -24,6 +24,7 @@ function login() {
         loadNotai();
       } else {
         loginError.textContent = "Credenziali non valide.";
+        app.classList.add("hidden"); // sicurezza extra
       }
     });
 }
@@ -37,6 +38,7 @@ function logout() {
 }
 
 function loadNotai() {
+  if (!currentUser) return; // impedisce anche richieste non loggate
   fetch(API_URL + "/latest", {
     headers: { "X-Master-Key": MASTER_KEY }
   })
@@ -75,7 +77,7 @@ function renderNotai(notai) {
 
 function addNotaio() {
   const nome = document.getElementById("new-notaio-name").value.trim();
-  if (!nome) return;
+  if (!nome || !currentUser) return;
   fetch(API_URL + "/latest", {
     headers: { "X-Master-Key": MASTER_KEY }
   })
@@ -93,7 +95,7 @@ function addNotaio() {
 function addTask(notaioIndex, tipo) {
   const input = document.getElementById(`new-${tipo}-${notaioIndex}`);
   const nome = input.value.trim();
-  if (!nome) return;
+  if (!nome || !currentUser) return;
   fetch(API_URL + "/latest", {
     headers: { "X-Master-Key": MASTER_KEY }
   })
@@ -109,6 +111,7 @@ function addTask(notaioIndex, tipo) {
 }
 
 function toggleTask(notaioIndex, tipo, taskIndex) {
+  if (!currentUser) return;
   fetch(API_URL + "/latest", {
     headers: { "X-Master-Key": MASTER_KEY }
   })
