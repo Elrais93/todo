@@ -8,12 +8,7 @@ window.onload = () => {
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
 
-    const utenti = {
-      "Andrea": "p@ssw0rdA!",
-      "Mauro": "p@ssw0rdM?"
-    };
-
-    if (utenti[user] === pass) {
+    if (dbData.utenti?.[user] === pass) {
       loggedUser = user;
       document.getElementById("loginContainer").style.display = "none";
       document.getElementById("appContainer").style.display = "block";
@@ -37,7 +32,6 @@ window.onload = () => {
       });
 
       if (!res.ok) throw new Error("Errore caricamento dati");
-
       const json = await res.json();
       dbData = json.record;
       if (!dbData.notai) dbData.notai = {};
@@ -61,7 +55,7 @@ window.onload = () => {
       if (!res.ok) throw new Error("Errore salvataggio");
     } catch (err) {
       console.error("Errore nel saveData:", err);
-      alert("Impossibile salvare i dati. Controlla la connessione o il bin.");
+      alert("Impossibile salvare i dati.");
     }
   };
 
@@ -135,7 +129,7 @@ window.onload = () => {
     renderNotai();
   };
 
-  // Espone le funzioni al DOM
+  // Espone funzioni globali
   window.login = login;
   window.logout = logout;
   window.addNotaio = addNotaio;
