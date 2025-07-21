@@ -8,12 +8,13 @@ window.onload = () => {
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
 
+    await loadData(); // 👈 Prima carica i dati
+
     if (dbData.utenti?.[user] === pass) {
       loggedUser = user;
       document.getElementById("loginContainer").style.display = "none";
       document.getElementById("appContainer").style.display = "block";
       document.getElementById("welcomeUser").innerText = `Benvenuto, ${user}`;
-      await loadData();
       renderNotai();
     } else {
       document.getElementById("loginError").innerText = "Credenziali errate";
